@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Import everything needed to use the `useQuery` hook
@@ -58,7 +59,7 @@ export default function App() {
       <header className="p-3 text-bg-dark">
           <Container><DisplayHeader /></Container>
       </header>
-      <Container>
+      <Container fluid>
 
           <Row>
             <Col>
@@ -67,7 +68,10 @@ export default function App() {
           </Row>
           <Row>
               <Col>
-                  <WeatherForecast forecast={[{"day": "Monday", "temp": 14, "tags": "sunny", "image": "image.jpb"}]} />
+                  <WeatherForecast forecast={[
+                      {"day": "Monday", "temp": 14, "tags": "sunny", "image": "image.jpb"},
+                      {"day": "Tuesday", "temp": 14, "tags": "sunny", "image": "image.jpb"}
+                  ]} />
               </Col>
           </Row>
       </Container>
