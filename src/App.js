@@ -58,20 +58,19 @@ const GET_WEATHERCARDSBYTAGANDTEMP = gql`
 
 export default function App() {
     const [current_weather, setWeather] = useState([]);
-    // useEffect(() => {
-    //     const API_key = process.env.REACT_APP_WEATHER_API_KEY;
-    //     const WeatherAPIUrl = 'https://api.openweathermap.org/data/2.5/weather?lat=57&lon=-2.15&appid=' + process.env.WEATHER_API_KEY + '&units=metric';
-    //     fetch(WeatherAPIUrl)
-    //
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data);
-    //             setWeather(data);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.message);
-    //         });
-    // }, []);
+    useEffect(() => {
+        const WeatherAPIUrl = '/weather_api/lat=57&lon=-2.15&&units=metric';
+        fetch(WeatherAPIUrl)
+
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setWeather(data);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }, []);
 
   return (
       <main className="text-bg-dark">
