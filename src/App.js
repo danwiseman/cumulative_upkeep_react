@@ -58,14 +58,26 @@ const GET_WEATHERCARDSBYTAGANDTEMP = gql`
 
 export default function App() {
     const [current_weather, setWeather] = useState([]);
+    const [forecast_weather, setForecast] = useState([]);
     useEffect(() => {
-        const WeatherAPIUrl = '/weather_api/lat=57&lon=-2.15&&units=metric';
+        const WeatherAPIUrl = '/weather_api/&q=57,-2.15';
         fetch(WeatherAPIUrl)
 
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
                 setWeather(data);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+        const WeatherForecastAPIUrl = '/forecast_api/&q=57,-2.15&days=7';
+        fetch(WeatherForecastAPIUrl)
+
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setForecast(data);
             })
             .catch((err) => {
                 console.log(err.message);
