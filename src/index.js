@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 
 const client = new ApolloClient({
-    uri: 'http://localhost:4000/',
+    uri: process.env.REACT_APP_WEATHER_CARD_APOLLO_API_URL,
     cache: new InMemoryCache(),
     connectToDevTools: true,
 });

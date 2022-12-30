@@ -1,7 +1,9 @@
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 import './index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mana-font/css/mana.css'
+
+import { useState, useEffect } from 'react';
 
 // Import everything needed to use the `useQuery` hook
 import { useQuery, gql } from '@apollo/client';
@@ -14,6 +16,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 import {WeatherDisplay, WeatherForecast} from './WeatherDisplay'
+import Stack from "react-bootstrap/Stack";
 
 const GET_WEATHERCARDS = gql`
     query GetAllWeatherCards {
@@ -54,27 +57,44 @@ const GET_WEATHERCARDSBYTAGANDTEMP = gql`
 `
 
 export default function App() {
+    const [current_weather, setWeather] = useState([]);
+    // useEffect(() => {
+    //     const API_key = process.env.REACT_APP_WEATHER_API_KEY;
+    //     const WeatherAPIUrl = 'https://api.openweathermap.org/data/2.5/weather?lat=57&lon=-2.15&appid=' + process.env.WEATHER_API_KEY + '&units=metric';
+    //     fetch(WeatherAPIUrl)
+    //
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             console.log(data);
+    //             setWeather(data);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err.message);
+    //         });
+    // }, []);
+
   return (
-      <main>
-      <header className="p-3 text-bg-dark">
+      <main className="text-bg-dark">
+      <header className="p-3 text-bg-primary">
           <Container><DisplayHeader /></Container>
       </header>
-      <Container fluid>
+        <Container fluid>
 
-          <Row>
-            <Col>
+          <Stack gap={2} className="col-md-6 mx-auto my-4">
+              <h3><i className="ms ms-ability-haste"></i> Today's Forecast</h3>
                 <DisplayWeatherCardByWeather tagsList={"cloudy"} temperature={17} />
-            </Col>
-          </Row>
-          <Row>
-              <Col>
-                  <WeatherForecast forecast={[
-                      {"day": "Monday", "temp": 14, "tags": "sunny", "image": "image.jpb"},
-                      {"day": "Tuesday", "temp": 14, "tags": "sunny", "image": "image.jpb"}
+              <h3 className="text-light"><i className="ms ms-counter-time"></i> Extended Forecast</h3>
+                <WeatherForecast forecast={[
+                      {"day": "Monday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/4/c/4c9e8f24-af62-4d13-bfed-a8b3294b64c3.jpg?1572893491"},
+                      {"day": "Tuesday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"},
+                  {"day": "Wednesday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"},
+                  {"day": "Thursday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"},
+                  {"day": "Friday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"}
                   ]} />
-              </Col>
-          </Row>
-      </Container>
+          </Stack>
+        </Container>
+        <DisplayFooter />
+
       </main>
   );
 }
@@ -83,9 +103,34 @@ function DisplayHeader() {
     return (
         <Row>
             <Col>
-                <h2>Cumulative Upkeep 🚀</h2>
+                <h2>Cumulative Upkeep <i className="ms ms-w"></i> </h2>
+                <h3 className="small">At the beginning of your upkeep, check the weather...</h3>
+                <Form>
+                    <Form.Check
+                        type="switch"
+                        id="custom-switch"
+                        label="Use Metric"
+                    />
+                </Form>
             </Col>
+            <Col><GetZipCodeForm /></Col>
         </Row>
+    );
+}
+
+function DisplayFooter() {
+    return (
+        <footer className="p-3 text-bg-primary">
+            <Container>
+                <p>Produced with <i className="ms ms-counter-devotion"></i> by <a href="https://danthedata.engineer">Dan Wiseman</a></p>
+                <p>Card Images and data sourced from Scryfall API. Weather sourced from weather api.
+                    Icons sourced from Bootstrap, Mana Icons, and Keyrune.</p>
+                <p className="small">This site contains unofficial Fan Content permitted
+                    under the Wizards of the Coast Fan Content Policy. The content from Magic: The
+                    Gathering, including card images, mana symbols, and Oracle text, is copyright
+                    Wizards of the Coast, LLC, a subsidiary of Hasbro, Inc. Cumulative Upkeep
+                    is not produced by or endorsed by Wizards of the Coast.</p></Container>
+        </footer>
     );
 }
 
