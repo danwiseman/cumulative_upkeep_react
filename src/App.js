@@ -67,7 +67,7 @@ export default function App() {
     //         });
     // }, []);
 
-    const { status, data, error } = useApi('/weather_api/&q=57,-2.15')
+    const { status, data, error } = useApi('/forecast_api/&q=57,-2.15&days=3')
     console.log(status)
   return (
       <main className="text-bg-dark">
@@ -90,12 +90,12 @@ export default function App() {
 
 
 
-              <h3 className="text-light"><i className="ms ms-counter-time"></i> Extended Forecast</h3>
-                <WeatherForecast forecast={[
-                      {"day": "Monday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/4/c/4c9e8f24-af62-4d13-bfed-a8b3294b64c3.jpg?1572893491"},
-                      {"day": "Tuesday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"},
-                  {"day": "Wednesday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"}
-                  ]} />
+              {/*<h3 className="text-light"><i className="ms ms-counter-time"></i> Extended Forecast</h3>*/}
+              {/*  <WeatherForecast forecast={[*/}
+              {/*        {"day": "Monday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/4/c/4c9e8f24-af62-4d13-bfed-a8b3294b64c3.jpg?1572893491"},*/}
+              {/*        {"day": "Tuesday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"},*/}
+              {/*    {"day": "Wednesday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"}*/}
+              {/*    ]} />*/}
           </Stack>
         </Container>
         <DisplayFooter />

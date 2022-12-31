@@ -28,17 +28,17 @@ export function WeatherDisplay(props) {
                 <Col md={6}>
 
                     <Card.Body>
-                        <Card.Title>{ location }</Card.Title>
+                        <Card.Title><i className="ms ms-land"></i> { location }</Card.Title>
                         <Card.Text>
                         <ListGroup>
-                            <ListGroupItem><CloudFill /> {weather_tag}</ListGroupItem>
+                            <ListGroupItem><WeatherIconForTag tag={weather_tag} /> {weather_tag}</ListGroupItem>
                             <ListGroupItem><ThermometerHalf /> Temperature: {temperature}</ListGroupItem>
-                            <ListGroupItem>High: / Low:</ListGroupItem>
                             <ListGroupItem><Droplet /> Humidity: {humidity}</ListGroupItem>
                             <ListGroupItem><Wind /> Wind: {wind_speed}</ListGroupItem>
                             <ListGroupItem>Feels Like: {feels_like}</ListGroupItem>
 
                         </ListGroup>
+                            <WeatherForecast forecast={props.weather_data.forecast} />
                         </Card.Text>
                         <Card.Footer>
                             <Button variant="primary">
@@ -57,7 +57,7 @@ export function WeatherForecast(props) {
     return (
         <Stack direction="horizontal" className="mx-auto my-2">
             <CardGroup>
-            {props.forecast.map((forecast_data) => (
+            {props.forecast.forecastday.map((forecast_data) => (
                 <WeatherForecastItem forecast={forecast_data} />
             ))}
             </CardGroup>
@@ -69,12 +69,25 @@ function WeatherForecastItem(props) {
     return(
 
         <Card mb={2}>
-            <img src={props.forecast.image}
-                className="card-img-top" />
+
             <Card.Body>
-                <Card.Title>{props.forecast.day}</Card.Title>
+                <Card.Title>day</Card.Title>
             </Card.Body>
         </Card>
 
     );
+}
+
+function WeatherIconForTag(props) {
+    const tag_for_icon = props.tag.toLowerCase();
+    switch (tag_for_icon) {
+        case 'cloudy':
+            return (<CloudFill/>)
+        case 'clear':
+            return (<i className="ms ms-dfc-night"></i>)
+        case 'sunny':
+            return (<i className="ms ms-dfc-day"></i>)
+        default:
+            return (<CloudFill/>)
+    }
 }
