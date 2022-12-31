@@ -3,7 +3,7 @@ import './App.scss';
 import './index.css';
 import 'mana-font/css/mana.css'
 
-import { useState, useEffect } from 'react';
+import { useApi } from './custom-hook'
 
 // Import everything needed to use the `useQuery` hook
 import { useQuery, gql } from '@apollo/client';
@@ -57,33 +57,35 @@ const GET_WEATHERCARDSBYTAGANDTEMP = gql`
 `
 
 export default function App() {
-    const [current_weather, setWeather] = useState([]);
-    const [forecast_weather, setForecast] = useState([]);
-    useEffect(() => {
-        const WeatherAPIUrl = '/weather_api/&q=57,-2.15';
-        fetch(WeatherAPIUrl)
+    // const [current_weather, setWeather] = useState([]);
+    // const [forecast_weather, setForecast] = useState([]);
+    // useEffect(() => {
+    //     const WeatherAPIUrl = '/weather_api/&q=57,-2.15';
+    //     fetch(WeatherAPIUrl)
+    //
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             console.log(data);
+    //             setWeather(data);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err.message);
+    //         });
+    //     const WeatherForecastAPIUrl = '/forecast_api/&q=57,-2.15&days=7';
+    //     fetch(WeatherForecastAPIUrl)
+    //
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             console.log(data);
+    //             setForecast(data);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err.message);
+    //         });
+    // }, []);
 
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setWeather(data);
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
-        const WeatherForecastAPIUrl = '/forecast_api/&q=57,-2.15&days=7';
-        fetch(WeatherForecastAPIUrl)
-
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setForecast(data);
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
-    }, []);
-
+    const { status, data, error } = useApi('/weather_api/&q=57,-2.15')
+    console.log(status)
   return (
       <main className="text-bg-dark">
       <header className="p-3 text-bg-primary">
@@ -93,14 +95,23 @@ export default function App() {
 
           <Stack gap={2} className="col-md-6 mx-auto my-4">
               <h3><i className="ms ms-ability-haste"></i> Today's Forecast</h3>
-                <DisplayWeatherCardByWeather tagsList={"cloudy"} temperature={17} />
+              {status === 'idle' && (
+                  <div> Let's get started by searching for an article! </div>
+              )}
+              {status === 'error' && <div>{error}</div>}
+              {status === 'fetching' && <div className="loading"></div>}
+              {status === 'fetched' && (
+                <DisplayWeatherCardByWeather current_weather={data}/>
+              )}
+
+
+
+
               <h3 className="text-light"><i className="ms ms-counter-time"></i> Extended Forecast</h3>
                 <WeatherForecast forecast={[
                       {"day": "Monday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/4/c/4c9e8f24-af62-4d13-bfed-a8b3294b64c3.jpg?1572893491"},
                       {"day": "Tuesday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"},
-                  {"day": "Wednesday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"},
-                  {"day": "Thursday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"},
-                  {"day": "Friday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"}
+                  {"day": "Wednesday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"}
                   ]} />
           </Stack>
         </Container>
@@ -134,7 +145,7 @@ function DisplayFooter() {
         <footer className="p-3 text-bg-primary">
             <Container>
                 <p>Produced with <i className="ms ms-counter-devotion"></i> by <a href="https://danthedata.engineer">Dan Wiseman</a></p>
-                <p>Card Images and data sourced from Scryfall API. Weather sourced from weather api.
+                <p>Card Images and data sourced from Scryfall API. Weather sourced from <a href="https://www.weatherapi.com">WeatherAPI</a>.
                     Icons sourced from Bootstrap, Mana Icons, and Keyrune.</p>
                 <p className="small">This site contains unofficial Fan Content permitted
                     under the Wizards of the Coast Fan Content Policy. The content from Magic: The
@@ -161,7 +172,11 @@ function DisplayWeatherCards() {
     ));
 }
 
-function DisplayWeatherCardByWeather({ tagsList, temperature }) {
+function DisplayWeatherCardByWeather({ current_weather }) {
+    console.log(current_weather)
+
+    const temperature = current_weather['current'].temp_c;
+    const tagsList = current_weather['current'].condition.text.toLowerCase();
     const { loading, error, data } = useQuery(GET_WEATHERCARDSBYTAGANDTEMP, {
 
         variables: { tagsList, temperature },
