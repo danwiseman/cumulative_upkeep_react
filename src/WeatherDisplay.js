@@ -9,10 +9,17 @@ import {CartFill, CloudFill, Droplet, ThermometerHalf, Wind} from 'react-bootstr
 
 
 export function WeatherDisplay(props) {
+    console.log(props)
+
+    const temperature = props.weather_data['current'].temp_c;
+    const weather_tag = props.weather_data['current'].condition.text;
+    const feels_like = props.weather_data['current'].feelslike_c;
+    const humidity = props.weather_data['current'].humidity;
+    const wind_speed = props.weather_data['current'].wind_kph;
+    const location = props.weather_data['location'].name + ', ' + props.weather_data['location'].region
+
     return (
-        <Card mb={3} g={5}
-              className="WeatherDisplay" border="dark"
-        bg="dark">
+
             <Row g={0}>
                 <Col md={6} className="WeatherCardImage">
                     <img alt={props.card_name} src={props.card_image_src}
@@ -21,15 +28,15 @@ export function WeatherDisplay(props) {
                 <Col md={6}>
 
                     <Card.Body>
-                        <Card.Title>Location</Card.Title>
+                        <Card.Title>{ location }</Card.Title>
                         <Card.Text>
                         <ListGroup>
-                            <ListGroupItem><CloudFill /> {props.weather_tags}</ListGroupItem>
-                            <ListGroupItem><ThermometerHalf /> Temperature: {props.temperature}</ListGroupItem>
+                            <ListGroupItem><CloudFill /> {weather_tag}</ListGroupItem>
+                            <ListGroupItem><ThermometerHalf /> Temperature: {temperature}</ListGroupItem>
                             <ListGroupItem>High: / Low:</ListGroupItem>
-                            <ListGroupItem><Droplet /> Humidity: </ListGroupItem>
-                            <ListGroupItem><Wind /> Wind: </ListGroupItem>
-                            <ListGroupItem>Feels Like: </ListGroupItem>
+                            <ListGroupItem><Droplet /> Humidity: {humidity}</ListGroupItem>
+                            <ListGroupItem><Wind /> Wind: {wind_speed}</ListGroupItem>
+                            <ListGroupItem>Feels Like: {feels_like}</ListGroupItem>
 
                         </ListGroup>
                         </Card.Text>
@@ -42,7 +49,7 @@ export function WeatherDisplay(props) {
                     </Card.Body>
                 </Col>
             </Row>
-        </Card>
+
     );
 }
 

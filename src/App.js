@@ -16,6 +16,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 import {WeatherDisplay, WeatherForecast} from './WeatherDisplay'
+import { DisplayWeatherCardByWeather } from'./WeatherCard';
 import Stack from "react-bootstrap/Stack";
 
 const GET_WEATHERCARDS = gql`
@@ -35,24 +36,6 @@ const GET_WEATHERCARDS = gql`
                 max
             }
         }
-    }
-`
-
-const GET_WEATHERCARDSBYTAGANDTEMP = gql`
-    query WeatherCardsByTagsAndTemp($tagsList: String, $temperature: Int) {
-
-        weatherCardsByTagsAndTemp(tagsList: $tagsList, temperature: $temperature) {
-
-            card_name
-            card_images {
-                png
-                normal
-                large
-                small
-
-            }
-        }
-
     }
 `
 
@@ -154,44 +137,6 @@ function DisplayFooter() {
                     is not produced by or endorsed by Wizards of the Coast.</p></Container>
         </footer>
     );
-}
-
-function DisplayWeatherCards() {
-    const { loading, error, data } = useQuery(GET_WEATHERCARDS);
-
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error : {error.message}</p>;
-
-    return data.allWeatherCards.map(({ card_name, card_images }) => (
-        <div key={card_name}>
-            <h3>{card_name}</h3>
-            <img alt="location-reference" src={`${card_images.png}`} />
-            <br />
-
-        </div>
-    ));
-}
-
-function DisplayWeatherCardByWeather({ current_weather }) {
-    console.log(current_weather)
-
-    const temperature = current_weather['current'].temp_c;
-    const tagsList = current_weather['current'].condition.text.toLowerCase();
-    const { loading, error, data } = useQuery(GET_WEATHERCARDSBYTAGANDTEMP, {
-
-        variables: { tagsList, temperature },
-
-    });
-
-
-    if (loading) return null;
-
-    if (error) return `Error! ${error}`;
-
-
-    return data.weatherCardsByTagsAndTemp.map(({ card_name, card_images }) => (
-        <WeatherDisplay card_name={card_name} card_image_src={card_images.png} weather_tags={tagsList} temperature={temperature} />
-    ));
 }
 
 
