@@ -5,9 +5,6 @@ import 'mana-font/css/mana.css'
 
 import { useApi } from './custom-hook'
 
-// Import everything needed to use the `useQuery` hook
-import { useQuery, gql } from '@apollo/client';
-
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -15,29 +12,8 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import {WeatherDisplay, WeatherForecast} from './WeatherDisplay'
 import { DisplayWeatherCardByWeather } from'./WeatherCard';
 import Stack from "react-bootstrap/Stack";
-
-const GET_WEATHERCARDS = gql`
-    query GetAllWeatherCards {
-        allWeatherCards {
-            sf_id
-            card_name
-            card_images {
-                png
-                normal
-                large
-                small
-            }
-            weather_tags
-            temperature_range {
-                min
-                max
-            }
-        }
-    }
-`
 
 export default function App() {
     // const [current_weather, setWeather] = useState([]);
@@ -87,15 +63,6 @@ export default function App() {
                 <DisplayWeatherCardByWeather current_weather={data}/>
               )}
 
-
-
-
-              {/*<h3 className="text-light"><i className="ms ms-counter-time"></i> Extended Forecast</h3>*/}
-              {/*  <WeatherForecast forecast={[*/}
-              {/*        {"day": "Monday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/4/c/4c9e8f24-af62-4d13-bfed-a8b3294b64c3.jpg?1572893491"},*/}
-              {/*        {"day": "Tuesday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"},*/}
-              {/*    {"day": "Wednesday", "temp": 14, "tags": "sunny", "image": "https://cards.scryfall.io/small/front/5/2/5294d359-c599-40ed-9e06-2a3cc8624d6a.jpg?1576384783"}*/}
-              {/*    ]} />*/}
           </Stack>
         </Container>
         <DisplayFooter />
