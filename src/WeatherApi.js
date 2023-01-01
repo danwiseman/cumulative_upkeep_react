@@ -1,6 +1,8 @@
 
 
 export const weather_data = (api_data) => {
+    console.log(api_data)
+
     const parsed_weather_data = {
         current: {
             temp_c: api_data['current'].temp_c,

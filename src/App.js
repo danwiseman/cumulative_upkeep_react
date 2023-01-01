@@ -12,36 +12,10 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { DisplayWeatherCardByWeather } from'./WeatherCard';
 import Stack from "react-bootstrap/Stack";
+import {WeatherDisplay} from "./WeatherDisplay";
 
 export default function App() {
-    // const [current_weather, setWeather] = useState([]);
-    // const [forecast_weather, setForecast] = useState([]);
-    // useEffect(() => {
-    //     const WeatherAPIUrl = '/weather_api/&q=57,-2.15';
-    //     fetch(WeatherAPIUrl)
-    //
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data);
-    //             setWeather(data);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.message);
-    //         });
-    //     const WeatherForecastAPIUrl = '/forecast_api/&q=57,-2.15&days=7';
-    //     fetch(WeatherForecastAPIUrl)
-    //
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data);
-    //             setForecast(data);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.message);
-    //         });
-    // }, []);
 
     const { status, data, error } = useApi('/forecast_api/&q=57,-2.15&days=3')
     console.log(status)
@@ -60,7 +34,7 @@ export default function App() {
               {status === 'error' && <div>{error}</div>}
               {status === 'fetching' && <div className="loading"></div>}
               {status === 'fetched' && (
-                <DisplayWeatherCardByWeather current_weather={data}/>
+                <WeatherDisplay current_weather={data}/>
               )}
 
           </Stack>
