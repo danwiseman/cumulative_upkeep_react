@@ -15,6 +15,8 @@ import Form from 'react-bootstrap/Form';
 import Stack from "react-bootstrap/Stack";
 import {WeatherDisplay} from "./WeatherDisplay";
 
+import {LocationModal} from "./LocationModal"
+
 export default function App() {
 
     const { status, data, error } = useApi('/forecast_api/&q=57,-2.15&days=3')
@@ -59,7 +61,7 @@ function DisplayHeader() {
                     />
                 </Form>
             </Col>
-            <Col><GetZipCodeForm /></Col>
+            <Col><LocationModal /></Col>
         </Row>
     );
 }
@@ -81,17 +83,3 @@ function DisplayFooter() {
 }
 
 
-function GetZipCodeForm() {
-    return (
-        <div className="GetZipCode">
-            <Form>
-                <Form.Group className="mb-3" controlId="formBasicZip">
-                    <Form.Control type="zipcode" placeholder="Enter Zipcode" />
-                    <Button variant="primary" type="submit">
-                        Submit
-                    </Button>
-                </Form.Group>
-            </Form>
-        </div>
-    );
-}

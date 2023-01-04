@@ -21,6 +21,13 @@ module.exports = function(app) {
         })
     );
     app.use(
+        '/location_api',
+        createProxyMiddleware({
+            target: 'http://api.weatherapi.com/v1/search.json?key=' + WEATHER_API_KEY + '&',
+            changeOrigin: true,
+        })
+    );
+    app.use(
         '/weathercards_api',
         createProxyMiddleware({
             target: process.env.REACT_APP_WEATHER_CARD_APOLLO_API_URL,
